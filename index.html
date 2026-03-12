@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- saved from url=(0050)file:///Users/jondenjackson/Downloads/index_3.html -->
+<!-- saved from url=(0050)file:///Users/jondenjackson/Downloads/index_4.html -->
 <html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -105,6 +105,7 @@
   .dot-dev { background: #f59e0b; }
   .dot-seo { background: #ef4444; }
   .dot-content { background: #10b981; }
+  .dot-sanity { background: #8b5cf6; }
 
   .legend-grid .lg-status {
     display: flex;
@@ -176,6 +177,12 @@
     color: #059669;
   }
 
+  .status-pill.in-progress.sanity {
+    background: #f3f0ff;
+    border-color: #8b5cf6;
+    color: #7c3aed;
+  }
+
   /* ── Completed ── */
   .status-pill.completed {
     color: #fff;
@@ -200,6 +207,11 @@
   .status-pill.completed.content {
     background: #10b981;
     border-color: #10b981;
+  }
+
+  .status-pill.completed.sanity {
+    background: #8b5cf6;
+    border-color: #8b5cf6;
   }
 
   /* ── Section ── */
@@ -449,6 +461,7 @@
   .progress-fill.dev { background: #f59e0b; }
   .progress-fill.seo-tag { background: #ef4444; }
   .progress-fill.content { background: #10b981; }
+  .progress-fill.sanity { background: #8b5cf6; }
 
   .progress-pct {
     font-size: 12px;
@@ -499,6 +512,11 @@
       <div class="lg-status"><span class="status-pill not-started content" style="margin:0;"><span class="pill-icon">○</span> Content</span></div>
       <div class="lg-status"><span class="status-pill completed content" style="margin:0;"><span class="pill-icon">✓</span> Content</span></div>
 
+      <!-- Sanity Dev -->
+      <div class="lg-label"><span class="dot dot-sanity"></span> Sanity Dev</div>
+      <div class="lg-status"><span class="status-pill not-started sanity" style="margin:0;"><span class="pill-icon">○</span> Sanity</span></div>
+      <div class="lg-status"><span class="status-pill completed sanity" style="margin:0;"><span class="pill-icon">✓</span> Sanity</span></div>
+
     </div>
 
     <div style="margin-top: 10px; padding-top: 8px; border-top: 1px solid #eee;">
@@ -540,6 +558,12 @@
     <div class="progress-track"><div class="progress-fill content" style="width: 6%;"></div></div>
     <div class="progress-pct">6%</div>
   </div>
+
+  <div class="progress-row">
+    <div class="progress-label"><span class="dot dot-sanity"></span> Sanity Dev</div>
+    <div class="progress-track"><div class="progress-fill sanity" style="width: 0%;"></div></div>
+    <div class="progress-pct">0%</div>
+  </div>
 </div>
 
 <!-- ═══════════════════════════════════════ -->
@@ -560,6 +584,7 @@
         <span class="status-pill not-started dev"><span class="pill-icon">○</span> Dev</span>
         <span class="status-pill completed seo-tag"><span class="pill-icon">✓</span> SEO</span>
         <span class="status-pill completed content"><span class="pill-icon">✓</span> Content</span>
+        <span class="status-pill not-started sanity"><span class="pill-icon">○</span> Sanity</span>
       </div>
     </div>
 
@@ -598,6 +623,7 @@
               <span class="status-pill not-started dev"><span class="pill-icon">○</span> Dev</span>
               <span class="status-pill not-started seo-tag"><span class="pill-icon">○</span> SEO</span>
               <span class="status-pill not-started content"><span class="pill-icon">○</span> Content</span>
+              <span class="status-pill not-started sanity"><span class="pill-icon">○</span> Sanity</span>
             </div>
           </div>
           <div class="connector"></div>
@@ -612,6 +638,7 @@
               <span class="status-pill not-started dev"><span class="pill-icon">○</span> Dev</span>
               <span class="status-pill not-started seo-tag"><span class="pill-icon">○</span> SEO</span>
               <span class="status-pill not-started content"><span class="pill-icon">○</span> Content</span>
+              <span class="status-pill not-started sanity"><span class="pill-icon">○</span> Sanity</span>
             </div>
           </div>
           <div class="connector"></div>
@@ -626,6 +653,7 @@
               <span class="status-pill not-started dev"><span class="pill-icon">○</span> Dev</span>
               <span class="status-pill not-started seo-tag"><span class="pill-icon">○</span> SEO</span>
               <span class="status-pill not-started content"><span class="pill-icon">○</span> Content</span>
+              <span class="status-pill not-started sanity"><span class="pill-icon">○</span> Sanity</span>
             </div>
           </div>
           <div class="connector"></div>
@@ -640,6 +668,7 @@
               <span class="status-pill not-started dev"><span class="pill-icon">○</span> Dev</span>
               <span class="status-pill not-started seo-tag"><span class="pill-icon">○</span> SEO</span>
               <span class="status-pill not-started content"><span class="pill-icon">○</span> Content</span>
+              <span class="status-pill not-started sanity"><span class="pill-icon">○</span> Sanity</span>
             </div>
           </div>
 
@@ -661,6 +690,7 @@
               <span class="status-pill not-started dev"><span class="pill-icon">○</span> Dev</span>
               <span class="status-pill not-started seo-tag"><span class="pill-icon">○</span> SEO</span>
               <span class="status-pill not-started content"><span class="pill-icon">○</span> Content</span>
+              <span class="status-pill not-started sanity"><span class="pill-icon">○</span> Sanity</span>
             </div>
           </div>
           <div class="connector"></div>
@@ -675,6 +705,7 @@
               <span class="status-pill not-started dev"><span class="pill-icon">○</span> Dev</span>
               <span class="status-pill not-started seo-tag"><span class="pill-icon">○</span> SEO</span>
               <span class="status-pill not-started content"><span class="pill-icon">○</span> Content</span>
+              <span class="status-pill not-started sanity"><span class="pill-icon">○</span> Sanity</span>
             </div>
           </div>
           <div class="connector"></div>
@@ -689,6 +720,7 @@
               <span class="status-pill not-started dev"><span class="pill-icon">○</span> Dev</span>
               <span class="status-pill not-started seo-tag"><span class="pill-icon">○</span> SEO</span>
               <span class="status-pill not-started content"><span class="pill-icon">○</span> Content</span>
+              <span class="status-pill not-started sanity"><span class="pill-icon">○</span> Sanity</span>
             </div>
           </div>
           <div class="connector"></div>
@@ -703,6 +735,7 @@
               <span class="status-pill not-started dev"><span class="pill-icon">○</span> Dev</span>
               <span class="status-pill not-started seo-tag"><span class="pill-icon">○</span> SEO</span>
               <span class="status-pill not-started content"><span class="pill-icon">○</span> Content</span>
+              <span class="status-pill not-started sanity"><span class="pill-icon">○</span> Sanity</span>
             </div>
           </div>
 
@@ -724,6 +757,7 @@
               <span class="status-pill not-started dev"><span class="pill-icon">○</span> Dev</span>
               <span class="status-pill not-started seo-tag"><span class="pill-icon">○</span> SEO</span>
               <span class="status-pill not-started content"><span class="pill-icon">○</span> Content</span>
+              <span class="status-pill not-started sanity"><span class="pill-icon">○</span> Sanity</span>
             </div>
           </div>
           <div class="connector"></div>
@@ -738,6 +772,7 @@
               <span class="status-pill not-started dev"><span class="pill-icon">○</span> Dev</span>
               <span class="status-pill not-started seo-tag"><span class="pill-icon">○</span> SEO</span>
               <span class="status-pill not-started content"><span class="pill-icon">○</span> Content</span>
+              <span class="status-pill not-started sanity"><span class="pill-icon">○</span> Sanity</span>
             </div>
           </div>
           <div class="connector"></div>
@@ -752,6 +787,7 @@
               <span class="status-pill not-started dev"><span class="pill-icon">○</span> Dev</span>
               <span class="status-pill not-started seo-tag"><span class="pill-icon">○</span> SEO</span>
               <span class="status-pill not-started content"><span class="pill-icon">○</span> Content</span>
+              <span class="status-pill not-started sanity"><span class="pill-icon">○</span> Sanity</span>
             </div>
           </div>
           <div class="connector"></div>
@@ -766,6 +802,7 @@
               <span class="status-pill not-started dev"><span class="pill-icon">○</span> Dev</span>
               <span class="status-pill not-started seo-tag"><span class="pill-icon">○</span> SEO</span>
               <span class="status-pill not-started content"><span class="pill-icon">○</span> Content</span>
+              <span class="status-pill not-started sanity"><span class="pill-icon">○</span> Sanity</span>
             </div>
           </div>
           <div class="connector"></div>
@@ -780,6 +817,7 @@
               <span class="status-pill not-started dev"><span class="pill-icon">○</span> Dev</span>
               <span class="status-pill not-started seo-tag"><span class="pill-icon">○</span> SEO</span>
               <span class="status-pill not-started content"><span class="pill-icon">○</span> Content</span>
+              <span class="status-pill not-started sanity"><span class="pill-icon">○</span> Sanity</span>
             </div>
           </div>
           <div class="connector"></div>
@@ -794,6 +832,7 @@
               <span class="status-pill not-started dev"><span class="pill-icon">○</span> Dev</span>
               <span class="status-pill not-started seo-tag"><span class="pill-icon">○</span> SEO</span>
               <span class="status-pill not-started content"><span class="pill-icon">○</span> Content</span>
+              <span class="status-pill not-started sanity"><span class="pill-icon">○</span> Sanity</span>
             </div>
           </div>
           <div class="connector"></div>
@@ -808,6 +847,7 @@
               <span class="status-pill not-started dev"><span class="pill-icon">○</span> Dev</span>
               <span class="status-pill not-started seo-tag"><span class="pill-icon">○</span> SEO</span>
               <span class="status-pill not-started content"><span class="pill-icon">○</span> Content</span>
+              <span class="status-pill not-started sanity"><span class="pill-icon">○</span> Sanity</span>
             </div>
           </div>
 
@@ -843,6 +883,7 @@
           <span class="status-pill not-started dev"><span class="pill-icon">○</span> Dev</span>
           <span class="status-pill not-started seo-tag"><span class="pill-icon">○</span> SEO</span>
           <span class="status-pill not-started content"><span class="pill-icon">○</span> Content</span>
+          <span class="status-pill not-started sanity"><span class="pill-icon">○</span> Sanity</span>
         </div>
       </div>
     </div>
@@ -857,6 +898,7 @@
           <span class="status-pill not-started dev"><span class="pill-icon">○</span> Dev</span>
           <span class="status-pill not-started seo-tag"><span class="pill-icon">○</span> SEO</span>
           <span class="status-pill not-started content"><span class="pill-icon">○</span> Content</span>
+          <span class="status-pill not-started sanity"><span class="pill-icon">○</span> Sanity</span>
         </div>
       </div>
     </div>
