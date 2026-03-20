@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<!-- saved from url=(0051)file:///Users/jondenjackson/Downloads/index_18.html -->
+<!-- saved from url=(0051)file:///Users/jondenjackson/Downloads/index_20.html -->
 <html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>VantagePoint — Sitemap &amp; Status Tracker</title>
+<link rel="icon" href="data:image/svg+xml,&lt;svg xmlns=&#39;http://www.w3.org/2000/svg&#39; viewBox=&#39;0 0 100 100&#39;&gt;&lt;text y=&#39;.9em&#39; font-size=&#39;90&#39;&gt;%F0%9F%93%88&lt;/text&gt;&lt;/svg&gt;">
 <style>
   @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap');
 
@@ -454,7 +455,7 @@
   .progress-fill {
     height: 100%;
     border-radius: 4px;
-    transition: width 0.3s ease;
+    transition: width 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   }
 
   .progress-fill.design { background: #6366f1; }
@@ -603,31 +604,31 @@
 
   <div class="progress-row">
     <div class="progress-label"><span class="dot dot-design"></span> Design</div>
-    <div class="progress-track"><div class="progress-fill design" style="width: 88%;"></div></div>
+    <div class="progress-track"><div class="progress-fill design" style="width: 88%;" data-target="88%"></div></div>
     <div class="progress-pct">88%</div>
   </div>
 
   <div class="progress-row">
     <div class="progress-label"><span class="dot dot-dev"></span> Development</div>
-    <div class="progress-track"><div class="progress-fill dev" style="width: 0%;"></div></div>
+    <div class="progress-track"><div class="progress-fill dev" style="width: 0%;" data-target="0%"></div></div>
     <div class="progress-pct">0%</div>
   </div>
 
   <div class="progress-row">
     <div class="progress-label"><span class="dot dot-seo"></span> SEO</div>
-    <div class="progress-track"><div class="progress-fill seo-tag" style="width: 100%;"></div></div>
+    <div class="progress-track"><div class="progress-fill seo-tag" style="width: 100%;" data-target="100%"></div></div>
     <div class="progress-pct">100%</div>
   </div>
 
   <div class="progress-row">
     <div class="progress-label"><span class="dot dot-content"></span> Content Input</div>
-    <div class="progress-track"><div class="progress-fill content" style="width: 6%;"></div></div>
+    <div class="progress-track"><div class="progress-fill content" style="width: 6%;" data-target="6%"></div></div>
     <div class="progress-pct">6%</div>
   </div>
 
   <div class="progress-row">
     <div class="progress-label"><span class="dot dot-sanity"></span> Sanity Dev</div>
-    <div class="progress-track"><div class="progress-fill sanity" style="width: 6%;"></div></div>
+    <div class="progress-track"><div class="progress-fill sanity" style="width: 6%;" data-target="6%"></div></div>
     <div class="progress-pct">6%</div>
   </div>
 </div>
@@ -1332,4 +1333,24 @@
   <strong>4. "Boutique" language removed</strong> — Per client feedback: VP plans to scale beyond boutique. Use "partner," "with you, all the way," and "tailored" instead.<br><br>
   <strong>5. Miami SEO pages → National SEO pages</strong> — Miami timeline is TBD, customer footprint is national. SEO landing pages now target national keywords. Geo-specific pages can be layered in once location is confirmed.<br><br>
   <strong>6. "About" added as top-level nav</strong> — Origin story, mission, McKinsey-level positioning.<br><br>
-  <strong>7. Status tracking added</strong> — 4 indi</div></body></html>
+  <strong>7. Status tracking added</strong> — 4 indi</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    var fills = document.querySelectorAll('.progress-fill');
+    fills.forEach(function(fill) {
+      var w = fill.style.width;
+      fill.setAttribute('data-target', w);
+      fill.style.width = '0%';
+    });
+    setTimeout(function() {
+      fills.forEach(function(fill, i) {
+        setTimeout(function() {
+          fill.style.width = fill.getAttribute('data-target');
+        }, i * 200);
+      });
+    }, 500);
+  });
+</script>
+
+</body></html>
