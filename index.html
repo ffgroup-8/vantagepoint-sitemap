@@ -6,12 +6,12 @@
 <title>VantagePoint — Sitemap &amp; Status Tracker</title>
 <link rel="icon" href="data:image/svg+xml,&lt;svg xmlns=&#39;http://www.w3.org/2000/svg&#39; viewBox=&#39;0 0 100 100&#39;&gt;&lt;text y=&#39;.9em&#39; font-size=&#39;90&#39;&gt;%F0%9F%93%88&lt;/text&gt;&lt;/svg&gt;">
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&display=swap');
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
   body {
-    font-family: 'DM Sans', sans-serif;
+    font-family: 'Geist', sans-serif;
     background: #f5f5f0;
     color: #1a1a1a;
     padding: 40px 24px 80px;
@@ -51,13 +51,20 @@
     color: #999;
   }
 
+  .sitemap-update {
+    font-size: 11px;
+    color: #bbb;
+    margin-top: 3px;
+    font-style: italic;
+  }
+
   /* ── Status Legend ── */
   .legend-box {
     background: #fff;
     border: 1.5px solid #d4d4cd;
     border-radius: 10px;
     padding: 16px 20px;
-    min-width: 320px;
+    min-width: 360px;
   }
 
   .legend-box-title {
@@ -104,9 +111,10 @@
 
   .dot-design { background: #6366f1; }
   .dot-dev { background: #f59e0b; }
-  .dot-seo { background: #ef4444; }
-  .dot-content { background: #10b981; }
+  .dot-seo { background: #10b981; }
+  .dot-content { background: #ef4444; }
   .dot-sanity { background: #8b5cf6; }
+  .dot-content-created { background: #0ea5e9; }
 
   .legend-grid .lg-status {
     display: flex;
@@ -167,15 +175,15 @@
   }
 
   .status-pill.in-progress.seo-tag {
-    background: #fef0f0;
-    border-color: #ef4444;
-    color: #dc2626;
-  }
-
-  .status-pill.in-progress.content {
     background: #ecfdf5;
     border-color: #10b981;
     color: #059669;
+  }
+
+  .status-pill.in-progress.content {
+    background: #fef0f0;
+    border-color: #ef4444;
+    color: #dc2626;
   }
 
   .status-pill.in-progress.sanity {
@@ -201,18 +209,30 @@
   }
 
   .status-pill.completed.seo-tag {
-    background: #ef4444;
-    border-color: #ef4444;
+    background: #10b981;
+    border-color: #10b981;
   }
 
   .status-pill.completed.content {
-    background: #10b981;
-    border-color: #10b981;
+    background: #ef4444;
+    border-color: #ef4444;
   }
 
   .status-pill.completed.sanity {
     background: #8b5cf6;
     border-color: #8b5cf6;
+  }
+
+  .status-pill.in-progress.content-created {
+    background: #e0f2fe;
+    border-color: #0ea5e9;
+    color: #0369a1;
+  }
+
+  .status-pill.completed.content-created {
+    background: #0ea5e9;
+    border-color: #0ea5e9;
+    color: #fff;
   }
 
   /* ── Section ── */
@@ -465,9 +485,10 @@
 
   .progress-fill.design { background: #6366f1; }
   .progress-fill.dev { background: #f59e0b; }
-  .progress-fill.seo-tag { background: #ef4444; }
-  .progress-fill.content { background: #10b981; }
+  .progress-fill.seo-tag { background: #10b981; }
+  .progress-fill.content { background: #ef4444; }
   .progress-fill.sanity { background: #8b5cf6; }
+  .progress-fill.content-created { background: #0ea5e9; }
 
   .progress-pct {
     font-size: 12px;
@@ -519,8 +540,8 @@
   }
 
   .content-section .seo-box {
-    background: #f8f8f6;
-    border: 1px solid #e0e0da;
+    background: #f0fdf4;
+    border: 1.5px solid #10b981;
     border-radius: 6px;
     padding: 10px 14px;
     margin-top: 10px;
@@ -531,16 +552,272 @@
     font-weight: 700;
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    color: #0d2e3f;
+    color: #059669;
     margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .content-section .seo-box-title::before {
+    content: '✓';
+    background: #10b981;
+    color: #fff;
+    font-size: 9px;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
   }
 
   .content-section .seo-box p {
     font-size: 11px;
-    color: #666;
+    color: #555;
     line-height: 1.5;
     margin-bottom: 4px;
   }
+
+  /* ── Rings progress chart ── */
+  .progress-summary { display: flex; align-items: center; gap: 40px; }
+  .progress-bars-col { flex: 1; min-width: 0; }
+  .rings-chart-wrap { display: flex; flex-direction: column; align-items: center; gap: 12px; flex-shrink: 0; }
+  .rings-svg-container { position: relative; width: 160px; height: 160px; }
+  .rings-svg-container svg { transform: rotate(-90deg); overflow: visible; }
+  .ring-bg { fill: none; stroke: #eeede8; stroke-width: 8; stroke-linecap: round; }
+  .ring-fill { fill: none; stroke-width: 8; stroke-linecap: round; stroke-dasharray: 0 1000; transition: stroke-dasharray 0.9s cubic-bezier(0.4, 0, 0.2, 1); }
+  .rings-center-label { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); text-align: center; pointer-events: none; }
+  .rings-overall-pct { display: block; font-size: 20px; font-weight: 700; color: #0d2e3f; line-height: 1; }
+  .rings-overall-label { display: block; font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: .08em; color: #bbb; margin-top: 3px; }
+  .rings-legend { display: grid; grid-template-columns: 1fr 1fr; gap: 4px 20px; }
+  .rings-legend-item { display: flex; align-items: center; gap: 5px; font-size: 10px; color: #777; font-weight: 500; white-space: nowrap; }
+  .rings-legend-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+
+  /* ── Anchor navigation ── */
+  html { scroll-behavior: smooth; }
+  [data-anchor] { cursor: pointer; }
+  .node[data-anchor] { transition: background 0.12s ease; }
+  .node[data-anchor]:hover { background: #fafaf6; }
+  .nav-item[data-anchor] { transition: background 0.12s ease; }
+  .nav-item[data-anchor]:hover { background: #1a3d58; }
+  [data-theme="dark"] .node[data-anchor]:hover { background: #1e1e1e; }
+  [data-theme="dark"] .nav-item[data-anchor]:hover { background: #161616; }
+
+  /* ══════════════════════════════════════════════════════
+     THEME TOGGLE BUTTON
+  ══════════════════════════════════════════════════════ */
+  .theme-toggle {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #fff;
+    border: 1.5px solid #d4d4cd;
+    border-radius: 999px;
+    padding: 6px 14px 6px 10px;
+    cursor: pointer;
+    font-family: 'Geist', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    color: #444;
+    transition: background 0.2s, border-color 0.2s, color 0.2s;
+    user-select: none;
+    white-space: nowrap;
+    align-self: flex-start;
+    margin-top: 4px;
+  }
+
+  .theme-toggle:hover { border-color: #999; }
+
+  .theme-toggle .toggle-track {
+    width: 34px;
+    height: 19px;
+    background: #ddd;
+    border-radius: 999px;
+    position: relative;
+    transition: background 0.25s;
+    flex-shrink: 0;
+  }
+
+  .theme-toggle .toggle-thumb {
+    width: 14px;
+    height: 14px;
+    background: #fff;
+    border-radius: 50%;
+    position: absolute;
+    top: 2.5px;
+    left: 2.5px;
+    transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.2s;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.25);
+  }
+
+  /* ══════════════════════════════════════════════════════
+     DARK MODE OVERRIDES
+  ══════════════════════════════════════════════════════ */
+  [data-theme="dark"] {
+    color-scheme: dark;
+  }
+
+  [data-theme="dark"] body {
+    background: #111111;
+    color: #e8e8e4;
+  }
+
+  /* Toggle button in dark mode */
+  [data-theme="dark"] .theme-toggle {
+    background: #1a1a1a;
+    border-color: #2e2e2e;
+    color: #666662;
+  }
+
+  [data-theme="dark"] .theme-toggle:hover { border-color: #484844; }
+
+  [data-theme="dark"] .theme-toggle .toggle-track {
+    background: #3bbfcc;
+  }
+
+  [data-theme="dark"] .theme-toggle .toggle-thumb {
+    transform: translateX(15px);
+  }
+
+  /* Header text */
+  [data-theme="dark"] .sitemap-title { color: #555552; }
+  [data-theme="dark"] .sitemap-subtitle { color: #e8e8e4; }
+  [data-theme="dark"] .sitemap-date { color: #555552; }
+  [data-theme="dark"] .sitemap-update { color: #444440; }
+
+  /* Legend box */
+  [data-theme="dark"] .legend-box {
+    background: #1a1a1a;
+    border-color: #2e2e2e;
+  }
+
+  [data-theme="dark"] .legend-box-title { color: #aaaaaa; }
+  [data-theme="dark"] .legend-grid .lg-header { color: #555552; border-bottom-color: #2e2e2e; }
+  [data-theme="dark"] .legend-grid .lg-label { color: #666662; }
+  [data-theme="dark"] .legend-grid .lg-status { color: #555552; }
+
+  /* Legend not-started state in dark */
+  [data-theme="dark"] .status-pill.not-started {
+    background: #171717;
+    border-color: #2e2e2e;
+    color: #484844;
+  }
+
+  /* Progress summary */
+  [data-theme="dark"] .progress-summary {
+    background: #1a1a1a;
+    border-color: #2e2e2e;
+  }
+
+  [data-theme="dark"] .progress-summary-title { color: #e8e8e4; }
+  [data-theme="dark"] .progress-label { color: #666662; }
+  [data-theme="dark"] .progress-track { background: #222222; }
+  [data-theme="dark"] .progress-pct { color: #666662; }
+
+  /* Section labels */
+  [data-theme="dark"] .section-label {
+    background: #222222;
+    color: #aaaaaa;
+  }
+
+  /* Nodes */
+  [data-theme="dark"] .node {
+    background: #1a1a1a;
+    border-color: #2e2e2e;
+  }
+
+  [data-theme="dark"] .node.home {
+    border-color: #3bbfcc;
+  }
+
+  [data-theme="dark"] .node-title { color: #e8e8e4; }
+  [data-theme="dark"] .node-desc { color: #5a8aa3; }
+  [data-theme="dark"] .node-url { color: #3bbfcc; }
+
+  /* Tags */
+  [data-theme="dark"] .tag.flagship { background: #222222; color: #aaaaaa; }
+  [data-theme="dark"] .tag.service { background: #1a1a1a; color: #3bbfcc; }
+  [data-theme="dark"] .tag.industry { background: #2a1f0a; color: #c8a040; }
+  [data-theme="dark"] .tag.seo { background: #2a0f0f; color: #e07070; }
+  [data-theme="dark"] .tag.support { background: #222222; color: #5a8aa3; }
+
+  /* Nav items */
+  [data-theme="dark"] .nav-item {
+    background: #0d0d0d;
+    border: 1px solid #2e2e2e;
+  }
+
+  [data-theme="dark"] .nav-item .nav-desc { color: rgba(156, 196, 216, 0.55); }
+
+  /* Connector lines */
+  [data-theme="dark"] .connector { background: #2e2e2e; }
+
+  /* Group box */
+  [data-theme="dark"] .group-box { border-color: #2e2e2e; }
+  [data-theme="dark"] .group-box .group-label {
+    background: #111111;
+    color: #555552;
+  }
+
+  /* Node badge */
+  [data-theme="dark"] .node-title .badge { background: #3bbfcc; }
+
+  /* HR */
+  [data-theme="dark"] hr { border-top-color: #2e2e2e; }
+
+  /* Note blocks */
+  [data-theme="dark"] .note {
+    background: #191919;
+    border-color: #2e2e2e;
+    color: #b8a848;
+  }
+
+  /* Page count */
+  [data-theme="dark"] .page-count {
+    background: #1a1a1a;
+    color: #aaaaaa;
+  }
+
+  /* Content strategy sections */
+  [data-theme="dark"] .content-section {
+    background: #1a1a1a;
+    border-color: #2e2e2e;
+  }
+
+  [data-theme="dark"] .content-section-title { color: #e8e8e4; }
+  [data-theme="dark"] .content-section-url { color: #3bbfcc; }
+
+  [data-theme="dark"] .content-section p {
+    color: #888884;
+  }
+
+  [data-theme="dark"] .content-section strong { color: #e8e8e4; }
+
+  [data-theme="dark"] .content-section ul {
+    color: #888884;
+  }
+
+  [data-theme="dark"] .content-section hr {
+    border-top-color: #2e2e2e;
+  }
+
+  /* SEO box */
+  [data-theme="dark"] .content-section .seo-box {
+    background: #0d1f14;
+    border-color: #1a4d30;
+  }
+
+  [data-theme="dark"] .content-section .seo-box-title { color: #34d399; }
+  [data-theme="dark"] .content-section .seo-box-title::before { background: #10b981; }
+
+  [data-theme="dark"] .content-section .seo-box p { color: #888884; }
+
+  [data-theme="dark"] .ring-bg { stroke: #252525; }
+  [data-theme="dark"] .rings-overall-pct { color: #e8e8e4; }
+  [data-theme="dark"] .rings-overall-label { color: #484844; }
+  [data-theme="dark"] .rings-legend-item { color: #555552; }
 </style>
 </head>
 <body>
@@ -554,7 +831,14 @@
     <p class="sitemap-title">VantagePoint Consulting Group</p>
     <h1 class="sitemap-subtitle">Sitemap &amp; Project Status Tracker</h1>
     <p class="sitemap-date">Last updated: March 20, 2026</p>
+    <p class="sitemap-update">↳ Upgraded tracker — dark mode, rings chart, anchor links, Content Created status</p>
   </div>
+
+
+  <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" title="Toggle light / dark mode">
+    <div class="toggle-track"><div class="toggle-thumb"></div></div>
+    <span id="themeLabel">Dark Mode</span>
+  </button>
 
   <div class="legend-box">
     <div class="legend-box-title">Status Indicators</div>
@@ -589,6 +873,10 @@
       <div class="lg-status"><span class="status-pill not-started sanity" style="margin:0;"><span class="pill-icon">○</span> Sanity</span></div>
       <div class="lg-status"><span class="status-pill completed sanity" style="margin:0;"><span class="pill-icon">✓</span> Sanity</span></div>
 
+      <!-- Content Created -->
+      <div class="lg-label"><span class="dot dot-content-created"></span> Content Created</div>
+      <div class="lg-status"><span class="status-pill not-started content-created" style="margin:0;"><span class="pill-icon">○</span> Created</span></div>
+      <div class="lg-status"><span class="status-pill completed content-created" style="margin:0;"><span class="pill-icon">✓</span> Created</span></div>
     </div>
 
     <div style="margin-top: 10px; padding-top: 8px; border-top: 1px solid #eee;">
@@ -605,6 +893,7 @@
 <!-- ═══════════════════════════════════════ -->
 
 <div class="progress-summary">
+  <div class="progress-bars-col">
   <div class="progress-summary-title">Overall Project Progress</div>
 
   <div class="progress-row">
@@ -636,6 +925,43 @@
     <div class="progress-track"><div class="progress-fill sanity" style="width: 6%;" data-target="6%"></div></div>
     <div class="progress-pct">6%</div>
   </div>
+
+  <div class="progress-row">
+    <div class="progress-label"><span class="dot dot-content-created"></span> Content Created</div>
+    <div class="progress-track"><div class="progress-fill content-created" style="width: 0%;" data-target="0%"></div></div>
+    <div class="progress-pct">0%</div>
+  </div>
+  </div>
+  <div class="rings-chart-wrap">
+    <div class="rings-svg-container">
+      <svg viewBox="0 0 160 160" width="160" height="160" xmlns="http://www.w3.org/2000/svg">
+        <circle class="ring-bg" cx="80" cy="80" r="15"/>
+        <circle class="ring-bg" cx="80" cy="80" r="25"/>
+        <circle class="ring-bg" cx="80" cy="80" r="35"/>
+        <circle class="ring-bg" cx="80" cy="80" r="45"/>
+        <circle class="ring-bg" cx="80" cy="80" r="55"/>
+        <circle class="ring-bg" cx="80" cy="80" r="65"/>
+        <circle id="ring-design"  class="ring-fill" cx="80" cy="80" r="15" stroke="#6366f1"/>
+        <circle id="ring-dev"     class="ring-fill" cx="80" cy="80" r="25" stroke="#f59e0b"/>
+        <circle id="ring-seo"     class="ring-fill" cx="80" cy="80" r="35" stroke="#10b981"/>
+        <circle id="ring-content" class="ring-fill" cx="80" cy="80" r="45" stroke="#ef4444"/>
+        <circle id="ring-sanity"  class="ring-fill" cx="80" cy="80" r="55" stroke="#8b5cf6"/>
+        <circle id="ring-created" class="ring-fill" cx="80" cy="80" r="65" stroke="#0ea5e9"/>
+      </svg>
+      <div class="rings-center-label">
+        <span class="rings-overall-pct" id="pieOverallPct">0%</span>
+        <span class="rings-overall-label">Overall</span>
+      </div>
+    </div>
+    <div class="rings-legend">
+      <div class="rings-legend-item"><span class="rings-legend-dot" style="background:#6366f1"></span>Design</div>
+      <div class="rings-legend-item"><span class="rings-legend-dot" style="background:#ef4444"></span>Content</div>
+      <div class="rings-legend-item"><span class="rings-legend-dot" style="background:#f59e0b"></span>Dev</div>
+      <div class="rings-legend-item"><span class="rings-legend-dot" style="background:#8b5cf6"></span>Sanity</div>
+      <div class="rings-legend-item"><span class="rings-legend-dot" style="background:#10b981"></span>SEO</div>
+      <div class="rings-legend-item"><span class="rings-legend-dot" style="background:#0ea5e9"></span>Created</div>
+    </div>
+  </div>
 </div>
 
 <!-- ═══════════════════════════════════════ -->
@@ -647,7 +973,7 @@
 
   <!-- HOME -->
   <div class="tree-root">
-    <div class="node home">
+    <div class="node home" data-anchor="section-home">
       <div class="node-title">HOME</div>
       <div class="node-desc">Hero landing page, elevator pitch, service overview, trust signals, success metrics strip, CTAs</div>
       <div class="node-url">/</div>
@@ -657,6 +983,7 @@
         <span class="status-pill completed seo-tag"><span class="pill-icon">✓</span> SEO</span>
         <span class="status-pill completed content"><span class="pill-icon">✓</span> Content</span>
         <span class="status-pill not-started sanity"><span class="pill-icon">○</span> Sanity</span>
+        <span class="status-pill not-started content-created"><span class="pill-icon">○</span> Created</span>
       </div>
     </div>
 
@@ -666,11 +993,11 @@
     <div class="nav-row">
       <div class="nav-item">SERVICES 🔽<div class="nav-desc">Dropdown → Service Pages</div></div>
       <div class="nav-item">INDUSTRIES 🔽<div class="nav-desc">Dropdown → Industry Pages</div></div>
-      <div class="nav-item">WORKING WITH US<div class="nav-desc">Engagement &amp; Pricing</div><div class="status-bar"><span class="status-pill completed design"><span class="pill-icon">✓</span> Design</span><span class="status-pill not-started dev"><span class="pill-icon">○</span> Dev</span><span class="status-pill completed seo-tag"><span class="pill-icon">✓</span> SEO</span><span class="status-pill not-started content"><span class="pill-icon">○</span> Content</span><span class="status-pill not-started sanity"><span class="pill-icon">○</span> Sanity</span></div></div>
-      <div class="nav-item">SUCCESS STORIES<div class="nav-desc">Case Studies &amp; Metrics</div><div class="status-bar"><span class="status-pill completed design"><span class="pill-icon">✓</span> Design</span><span class="status-pill not-started dev"><span class="pill-icon">○</span> Dev</span><span class="status-pill completed seo-tag"><span class="pill-icon">✓</span> SEO</span><span class="status-pill not-started content"><span class="pill-icon">○</span> Content</span><span class="status-pill not-started sanity"><span class="pill-icon">○</span> Sanity</span></div></div>
-      <div class="nav-item">RESOURCES / BLOG<div class="nav-desc">SEO Content Hub</div><div class="status-bar"><span class="status-pill completed design"><span class="pill-icon">✓</span> Design</span><span class="status-pill not-started dev"><span class="pill-icon">○</span> Dev</span><span class="status-pill completed seo-tag"><span class="pill-icon">✓</span> SEO</span><span class="status-pill not-started content"><span class="pill-icon">○</span> Content</span><span class="status-pill not-started sanity"><span class="pill-icon">○</span> Sanity</span></div></div>
-      <div class="nav-item">ABOUT<div class="nav-desc">Company Story</div><div class="status-bar"><span class="status-pill completed design"><span class="pill-icon">✓</span> Design</span><span class="status-pill not-started dev"><span class="pill-icon">○</span> Dev</span><span class="status-pill completed seo-tag"><span class="pill-icon">✓</span> SEO</span><span class="status-pill not-started content"><span class="pill-icon">○</span> Content</span><span class="status-pill completed sanity"><span class="pill-icon">✓</span> Sanity</span></div></div>
-      <div class="nav-item">FREE CONSULTATION<div class="nav-desc">Contact &amp; Calendly</div><div class="status-bar"><span class="status-pill completed design"><span class="pill-icon">✓</span> Design</span><span class="status-pill not-started dev"><span class="pill-icon">○</span> Dev</span><span class="status-pill completed seo-tag"><span class="pill-icon">✓</span> SEO</span><span class="status-pill not-started content"><span class="pill-icon">○</span> Content</span><span class="status-pill not-started sanity"><span class="pill-icon">○</span> Sanity</span></div></div>
+      <div class="nav-item" data-anchor="section-working-with-us">WORKING WITH US<div class="nav-desc">Engagement &amp; Pricing</div><div class="status-bar"><span class="status-pill completed design"><span class="pill-icon">✓</span> Design</span><span class="status-pill not-started dev"><span class="pill-icon">○</span> Dev</span><span class="status-pill completed seo-tag"><span class="pill-icon">✓</span> SEO</span><span class="status-pill not-started content"><span class="pill-icon">○</span> Content</span><span class="status-pill not-started sanity"><span class="pill-icon">○</span> Sanity</span><span class="status-pill not-started content-created"><span class="pill-icon">○</span> Created</span></div></div>
+      <div class="nav-item" data-anchor="section-success-stories">SUCCESS STORIES<div class="nav-desc">Case Studies &amp; Metrics</div><div class="status-bar"><span class="status-pill completed design"><span class="pill-icon">✓</span> Design</span><span class="status-pill not-started dev"><span class="pill-icon">○</span> Dev</span><span class="status-pill completed seo-tag"><span class="pill-icon">✓</span> SEO</span><span class="status-pill not-started content"><span class="pill-icon">○</span> Content</span><span class="status-pill not-started sanity"><span class="pill-icon">○</span> Sanity</span><span class="status-pill not-started content-created"><span class="pill-icon">○</span> Created</span></div></div>
+      <div class="nav-item" data-anchor="section-resources-blog">RESOURCES / BLOG<div class="nav-desc">SEO Content Hub</div><div class="status-bar"><span class="status-pill completed design"><span class="pill-icon">✓</span> Design</span><span class="status-pill not-started dev"><span class="pill-icon">○</span> Dev</span><span class="status-pill completed seo-tag"><span class="pill-icon">✓</span> SEO</span><span class="status-pill not-started content"><span class="pill-icon">○</span> Content</span><span class="status-pill not-started sanity"><span class="pill-icon">○</span> Sanity</span><span class="status-pill not-started content-created"><span class="pill-icon">○</span> Created</span></div></div>
+      <div class="nav-item" data-anchor="section-about">ABOUT<div class="nav-desc">Company Story</div><div class="status-bar"><span class="status-pill completed design"><span class="pill-icon">✓</span> Design</span><span class="status-pill not-started dev"><span class="pill-icon">○</span> Dev</span><span class="status-pill completed seo-tag"><span class="pill-icon">✓</span> SEO</span><span class="status-pill not-started content"><span class="pill-icon">○</span> Content</span><span class="status-pill completed sanity"><span class="pill-icon">✓</span> Sanity</span><span class="status-pill not-started content-created"><span class="pill-icon">○</span> Created</span></div></div>
+      <div class="nav-item" data-anchor="section-free-consultation">FREE CONSULTATION<div class="nav-desc">Contact &amp; Calendly</div><div class="status-bar"><span class="status-pill completed design"><span class="pill-icon">✓</span> Design</span><span class="status-pill not-started dev"><span class="pill-icon">○</span> Dev</span><span class="status-pill completed seo-tag"><span class="pill-icon">✓</span> SEO</span><span class="status-pill not-started content"><span class="pill-icon">○</span> Content</span><span class="status-pill not-started sanity"><span class="pill-icon">○</span> Sanity</span><span class="status-pill not-started content-created"><span class="pill-icon">○</span> Created</span></div></div>
     </div>
 
     <div style="height: 20px;"></div>
@@ -683,7 +1010,7 @@
         <div class="group-box">
           <div class="group-label">Services Dropdown</div>
 
-          <div class="node" style="margin-top: 8px;">
+          <div class="node" data-anchor="section-services-overview" style="margin-top: 8px;">
             <div class="node-title">Overview</div>
             <div class="node-desc">Hub page linking to all service lines. Consider nationwide map visual.</div>
             <div class="node-url">/services</div>
@@ -694,11 +1021,12 @@
               <span class="status-pill completed seo-tag"><span class="pill-icon">✓</span> SEO</span>
               <span class="status-pill not-started content"><span class="pill-icon">○</span> Content</span>
               <span class="status-pill not-started sanity"><span class="pill-icon">○</span> Sanity</span>
+              <span class="status-pill not-started content-created"><span class="pill-icon">○</span> Created</span>
             </div>
           </div>
           <div class="connector"></div>
 
-          <div class="node">
+          <div class="node" data-anchor="section-fractional-cfo">
             <div class="node-title">Fractional CFO <span class="badge">FLAGSHIP</span></div>
             <div class="node-desc">Most important page. Deep-dive: what it is, who needs it, 4 pillars, pricing from $3K/mo, FAQ (5–10 Qs).</div>
             <div class="node-url">/services/fractional-cfo</div>
@@ -709,11 +1037,12 @@
               <span class="status-pill completed seo-tag"><span class="pill-icon">✓</span> SEO</span>
               <span class="status-pill not-started content"><span class="pill-icon">○</span> Content</span>
               <span class="status-pill not-started sanity"><span class="pill-icon">○</span> Sanity</span>
+              <span class="status-pill not-started content-created"><span class="pill-icon">○</span> Created</span>
             </div>
           </div>
           <div class="connector"></div>
 
-          <div class="node">
+          <div class="node" data-anchor="section-management-consulting">
             <div class="node-title">Management Consulting</div>
             <div class="node-desc">M&amp;A Advisory, FP&amp;A, Turnarounds, Revenue Mgmt, Strategic Planning, Sales Planning. Accordion sections.</div>
             <div class="node-url">/services/consulting</div>
@@ -724,11 +1053,12 @@
               <span class="status-pill completed seo-tag"><span class="pill-icon">✓</span> SEO</span>
               <span class="status-pill not-started content"><span class="pill-icon">○</span> Content</span>
               <span class="status-pill not-started sanity"><span class="pill-icon">○</span> Sanity</span>
+              <span class="status-pill not-started content-created"><span class="pill-icon">○</span> Created</span>
             </div>
           </div>
           <div class="connector"></div>
 
-          <div class="node">
+          <div class="node" data-anchor="section-accounting-services">
             <div class="node-title">Accounting Services</div>
             <div class="node-desc">GAAP-compliant, accrual-based accounting, financial reporting, decision-ready data.</div>
             <div class="node-url">/services/accounting</div>
@@ -739,6 +1069,7 @@
               <span class="status-pill completed seo-tag"><span class="pill-icon">✓</span> SEO</span>
               <span class="status-pill not-started content"><span class="pill-icon">○</span> Content</span>
               <span class="status-pill not-started sanity"><span class="pill-icon">○</span> Sanity</span>
+              <span class="status-pill not-started content-created"><span class="pill-icon">○</span> Created</span>
             </div>
           </div>
 
@@ -750,7 +1081,7 @@
         <div class="group-box">
           <div class="group-label">Industries Dropdown</div>
 
-          <div class="node" style="margin-top: 8px;">
+          <div class="node" data-anchor="section-adult-beverage" style="margin-top: 8px;">
             <div class="node-title">Adult Beverage</div>
             <div class="node-desc">Industry page: pain points, VP solutions, success metrics from spirits/distributor work.</div>
             <div class="node-url">/industries/adult-beverage</div>
@@ -761,11 +1092,12 @@
               <span class="status-pill completed seo-tag"><span class="pill-icon">✓</span> SEO</span>
               <span class="status-pill not-started content"><span class="pill-icon">○</span> Content</span>
               <span class="status-pill not-started sanity"><span class="pill-icon">○</span> Sanity</span>
+              <span class="status-pill not-started content-created"><span class="pill-icon">○</span> Created</span>
             </div>
           </div>
           <div class="connector"></div>
 
-          <div class="node">
+          <div class="node" data-anchor="section-hospitality">
             <div class="node-title">Hospitality</div>
             <div class="node-desc">Restaurants &amp; bars. Thin margins, seasonal fluctuations, pour cost, food cost management.</div>
             <div class="node-url">/industries/hospitality</div>
@@ -776,11 +1108,12 @@
               <span class="status-pill completed seo-tag"><span class="pill-icon">✓</span> SEO</span>
               <span class="status-pill not-started content"><span class="pill-icon">○</span> Content</span>
               <span class="status-pill not-started sanity"><span class="pill-icon">○</span> Sanity</span>
+              <span class="status-pill not-started content-created"><span class="pill-icon">○</span> Created</span>
             </div>
           </div>
           <div class="connector"></div>
 
-          <div class="node">
+          <div class="node" data-anchor="section-cpg">
             <div class="node-title">Consumer Packaged Goods</div>
             <div class="node-desc">Trade spend, retailer margin negotiations, pricing architecture, distributor economics.</div>
             <div class="node-url">/industries/cpg</div>
@@ -791,11 +1124,12 @@
               <span class="status-pill completed seo-tag"><span class="pill-icon">✓</span> SEO</span>
               <span class="status-pill not-started content"><span class="pill-icon">○</span> Content</span>
               <span class="status-pill not-started sanity"><span class="pill-icon">○</span> Sanity</span>
+              <span class="status-pill not-started content-created"><span class="pill-icon">○</span> Created</span>
             </div>
           </div>
           <div class="connector"></div>
 
-          <div class="node">
+          <div class="node" data-anchor="section-retail">
             <div class="node-title">Retail</div>
             <div class="node-desc">POS reconciliation, inventory, retail accounting, financial advisory.</div>
             <div class="node-url">/industries/retail</div>
@@ -806,6 +1140,7 @@
               <span class="status-pill completed seo-tag"><span class="pill-icon">✓</span> SEO</span>
               <span class="status-pill not-started content"><span class="pill-icon">○</span> Content</span>
               <span class="status-pill not-started sanity"><span class="pill-icon">○</span> Sanity</span>
+              <span class="status-pill not-started content-created"><span class="pill-icon">○</span> Created</span>
             </div>
           </div>
 
@@ -817,7 +1152,7 @@
         <div class="group-box">
           <div class="group-label">Standalone Pages</div>
 
-          <div class="node" style="margin-top: 8px;">
+          <div class="node" data-anchor="section-working-with-us" style="margin-top: 8px;">
             <div class="node-title">Working With Us</div>
             <div class="node-desc">Replaces "Pricing." Tailored, partner-driven positioning. "With you, all the way." 3 billing models: Retainer, Hourly ($300/hr, 10hr min), Success Fees (2–10%).</div>
             <div class="node-url">/working-with-us</div>
@@ -828,11 +1163,12 @@
               <span class="status-pill completed seo-tag"><span class="pill-icon">✓</span> SEO</span>
               <span class="status-pill not-started content"><span class="pill-icon">○</span> Content</span>
               <span class="status-pill not-started sanity"><span class="pill-icon">○</span> Sanity</span>
+              <span class="status-pill not-started content-created"><span class="pill-icon">○</span> Created</span>
             </div>
           </div>
           <div class="connector"></div>
 
-          <div class="node">
+          <div class="node" data-anchor="section-success-stories">
             <div class="node-title">Success Stories</div>
             <div class="node-desc">Metric card grid + case narratives. Professional wins + client results. $137.5M P&amp;L, 36% growth, $9M profit.</div>
             <div class="node-url">/success-stories</div>
@@ -843,11 +1179,12 @@
               <span class="status-pill completed seo-tag"><span class="pill-icon">✓</span> SEO</span>
               <span class="status-pill not-started content"><span class="pill-icon">○</span> Content</span>
               <span class="status-pill not-started sanity"><span class="pill-icon">○</span> Sanity</span>
+              <span class="status-pill not-started content-created"><span class="pill-icon">○</span> Created</span>
             </div>
           </div>
           <div class="connector"></div>
 
-          <div class="node">
+          <div class="node" data-anchor="section-resources-blog">
             <div class="node-title">Resources / Blog</div>
             <div class="node-desc">SEO content hub. Articles, guides, tools. 2–4 posts/month. Links to service pages.</div>
             <div class="node-url">/resources</div>
@@ -858,11 +1195,12 @@
               <span class="status-pill completed seo-tag"><span class="pill-icon">✓</span> SEO</span>
               <span class="status-pill not-started content"><span class="pill-icon">○</span> Content</span>
               <span class="status-pill not-started sanity"><span class="pill-icon">○</span> Sanity</span>
+              <span class="status-pill not-started content-created"><span class="pill-icon">○</span> Created</span>
             </div>
           </div>
           <div class="connector"></div>
 
-          <div class="node">
+          <div class="node" data-anchor="section-about">
             <div class="node-title">About VantagePoint</div>
             <div class="node-desc">Origin story (founded 2024, Miami), mission &amp; vision, McKinsey-level perception, personal partner approach.</div>
             <div class="node-url">/about</div>
@@ -873,11 +1211,12 @@
               <span class="status-pill completed seo-tag"><span class="pill-icon">✓</span> SEO</span>
               <span class="status-pill not-started content"><span class="pill-icon">○</span> Content</span>
               <span class="status-pill completed sanity"><span class="pill-icon">✓</span> Sanity</span>
+              <span class="status-pill not-started content-created"><span class="pill-icon">○</span> Created</span>
             </div>
           </div>
           <div class="connector"></div>
 
-          <div class="node">
+          <div class="node" data-anchor="section-free-consultation">
             <div class="node-title">Free Consultation</div>
             <div class="node-desc">Contact form, phone, email, Calendly embed, Miami map. "Let's Talk About Your Business."</div>
             <div class="node-url">/contact</div>
@@ -888,6 +1227,7 @@
               <span class="status-pill completed seo-tag"><span class="pill-icon">✓</span> SEO</span>
               <span class="status-pill not-started content"><span class="pill-icon">○</span> Content</span>
               <span class="status-pill not-started sanity"><span class="pill-icon">○</span> Sanity</span>
+              <span class="status-pill not-started content-created"><span class="pill-icon">○</span> Created</span>
             </div>
           </div>
 
@@ -913,7 +1253,7 @@
 
   <div class="columns">
     <div class="column">
-      <div class="node">
+      <div class="node" data-anchor="section-fractional-cfo-seo">
         <div class="node-title">Fractional CFO Services</div>
         <div class="node-desc">National SEO landing page targeting "fractional CFO services," "outsourced CFO." Can layer in geo-targeting later. Currently positioned for national reach given distributed team model.</div>
         <div class="node-url">/fractional-cfo</div>
@@ -924,6 +1264,7 @@
           <span class="status-pill completed seo-tag"><span class="pill-icon">✓</span> SEO</span>
           <span class="status-pill not-started content"><span class="pill-icon">○</span> Content</span>
           <span class="status-pill not-started sanity"><span class="pill-icon">○</span> Sanity</span>
+          <span class="status-pill not-started content-created"><span class="pill-icon">○</span> Created</span>
         </div>
       </div>
     </div>
@@ -939,6 +1280,7 @@
           <span class="status-pill completed seo-tag"><span class="pill-icon">✓</span> SEO</span>
           <span class="status-pill not-started content"><span class="pill-icon">○</span> Content</span>
           <span class="status-pill not-started sanity"><span class="pill-icon">○</span> Sanity</span>
+          <span class="status-pill not-started content-created"><span class="pill-icon">○</span> Created</span>
         </div>
       </div>
     </div>
@@ -955,7 +1297,7 @@
   <div class="section-label">📋 Page Content Strategy &amp; SEO/AEO Structure</div>
 
   <!-- HOME -->
-  <div class="content-section">
+  <div class="content-section" id="section-home">
     <div class="content-section-title">🏠 Home</div>
     <div class="content-section-url">/</div>
     <p><strong>Purpose:</strong> First impression. Establish VantagePoint as a credible, approachable financial partner with Fortune 500 pedigree. Drive to free consultation or deeper service pages.</p>
@@ -985,7 +1327,7 @@
   </div>
 
   <!-- SERVICES OVERVIEW -->
-  <div class="content-section">
+  <div class="content-section" id="section-services-overview">
     <div class="content-section-title">📂 Services Overview</div>
     <div class="content-section-url">/services</div>
     <p><strong>Purpose:</strong> Hub page linking to all three service lines. Help visitors self-select the right service. Consider nationwide map visual showing client reach.</p>
@@ -1007,7 +1349,7 @@
   </div>
 
   <!-- FRACTIONAL CFO -->
-  <div class="content-section">
+  <div class="content-section" id="section-fractional-cfo">
     <div class="content-section-title">📊 Fractional CFO — FLAGSHIP</div>
     <div class="content-section-url">/services/fractional-cfo</div>
     <p><strong>Purpose:</strong> Most important service page. Deep-dive into what a fractional CFO is, who needs one, the 4 pillars of the service, pricing, and a robust FAQ (5–10 questions). This page needs to rank for "fractional CFO" and convert visitors who are comparison shopping.</p>
@@ -1033,7 +1375,7 @@
   </div>
 
   <!-- MANAGEMENT CONSULTING -->
-  <div class="content-section">
+  <div class="content-section" id="section-management-consulting">
     <div class="content-section-title">🧭 Management Consulting</div>
     <div class="content-section-url">/services/consulting</div>
     <p><strong>Purpose:</strong> Detail page for strategic consulting engagements — M&amp;A, turnarounds, FP&amp;A, revenue management, sales planning. Accordion sections for each sub-service.</p>
@@ -1057,7 +1399,7 @@
   </div>
 
   <!-- ACCOUNTING SERVICES -->
-  <div class="content-section">
+  <div class="content-section" id="section-accounting-services">
     <div class="content-section-title">🧮 Accounting Services</div>
     <div class="content-section-url">/services/accounting</div>
     <p><strong>Purpose:</strong> Entry-point service that scales into Fractional CFO. Position as more than bookkeeping — GAAP-compliant, accrual-based, decision-ready financial data.</p>
@@ -1080,7 +1422,7 @@
   </div>
 
   <!-- ADULT BEVERAGE -->
-  <div class="content-section">
+  <div class="content-section" id="section-adult-beverage">
     <div class="content-section-title">🥃 Adult Beverage</div>
     <div class="content-section-url">/industries/adult-beverage</div>
     <p><strong>Purpose:</strong> Industry page showing deep expertise in spirits, wine, brewery, and RTD finance. Leverage Thomas's Bacardi/Southern Glazer's background as primary differentiator.</p>
@@ -1103,7 +1445,7 @@
   </div>
 
   <!-- HOSPITALITY -->
-  <div class="content-section">
+  <div class="content-section" id="section-hospitality">
     <div class="content-section-title">🍽️ Hospitality</div>
     <div class="content-section-url">/industries/hospitality</div>
     <p><strong>Purpose:</strong> Industry page for restaurants, bars, food service, and hotels. Focus on thin-margin reality and the specific financial challenges of hospitality.</p>
@@ -1125,7 +1467,7 @@
   </div>
 
   <!-- CPG -->
-  <div class="content-section">
+  <div class="content-section" id="section-cpg">
     <div class="content-section-title">📦 Consumer Packaged Goods</div>
     <div class="content-section-url">/industries/cpg</div>
     <p><strong>Purpose:</strong> Industry page for CPG brands — DTC, food &amp; bev, consumer goods. Focus on trade spend, pricing at scale, and retailer margin negotiations.</p>
@@ -1147,7 +1489,7 @@
   </div>
 
   <!-- RETAIL -->
-  <div class="content-section">
+  <div class="content-section" id="section-retail">
     <div class="content-section-title">🛍️ Retail</div>
     <div class="content-section-url">/industries/retail</div>
     <p><strong>Purpose:</strong> Industry page for brick &amp; mortar, e-commerce, and multi-location retail. Focus on POS reconciliation, inventory, and scaling financial infrastructure.</p>
@@ -1169,7 +1511,7 @@
   </div>
 
   <!-- WORKING WITH US -->
-  <div class="content-section">
+  <div class="content-section" id="section-working-with-us">
     <div class="content-section-title">🤝 Working With Us</div>
     <div class="content-section-url">/working-with-us</div>
     <p><strong>Purpose:</strong> Replaces a traditional "Pricing" page. Tailored, partner-driven positioning. "With you, all the way." Transparent engagement models without commoditizing services.</p>
@@ -1192,7 +1534,7 @@
   </div>
 
   <!-- SUCCESS STORIES -->
-  <div class="content-section">
+  <div class="content-section" id="section-success-stories">
     <div class="content-section-title">🏆 Success Stories</div>
     <div class="content-section-url">/success-stories</div>
     <p><strong>Purpose:</strong> Trust builder. Metric card grid with case narratives showing real outcomes from VP engagements and Thomas's career.</p>
@@ -1214,7 +1556,7 @@
   </div>
 
   <!-- RESOURCES / BLOG -->
-  <div class="content-section">
+  <div class="content-section" id="section-resources-blog">
     <div class="content-section-title">📝 Resources / Blog</div>
     <div class="content-section-url">/resources</div>
     <p><strong>Purpose:</strong> SEO content hub. Ongoing articles that drive organic traffic, build thought leadership, and support AEO presence. 2–4 posts/month. Every article internally links to service pages.</p>
@@ -1238,7 +1580,7 @@
   </div>
 
   <!-- ABOUT -->
-  <div class="content-section">
+  <div class="content-section" id="section-about">
     <div class="content-section-title">🏢 About VantagePoint</div>
     <div class="content-section-url">/about</div>
     <p><strong>Purpose:</strong> Origin story, mission, McKinsey-level positioning with personal partner approach. Build trust and human connection.</p>
@@ -1261,7 +1603,7 @@
   </div>
 
   <!-- FREE CONSULTATION -->
-  <div class="content-section">
+  <div class="content-section" id="section-free-consultation">
     <div class="content-section-title">📞 Free Consultation</div>
     <div class="content-section-url">/contact</div>
     <p><strong>Purpose:</strong> Primary conversion destination. Every page CTA drives here. "This is not a sales pitch — just a conversation."</p>
@@ -1285,7 +1627,7 @@
   </div>
 
   <!-- NATIONAL SEO: FRACTIONAL CFO -->
-  <div class="content-section">
+  <div class="content-section" id="section-fractional-cfo-seo">
     <div class="content-section-title">🔍 Fractional CFO Services (National SEO)</div>
     <div class="content-section-url">/fractional-cfo</div>
     <p><strong>Purpose:</strong> National SEO landing page targeting "fractional CFO services" and "outsourced CFO." Not in main nav — exists for organic search capture. Can layer in geo-targeting later.</p>
@@ -1344,8 +1686,9 @@
   document.addEventListener('DOMContentLoaded', function() {
     var fills = document.querySelectorAll('.progress-fill');
     fills.forEach(function(fill) {
-      var w = fill.style.width;
-      fill.setAttribute('data-target', w);
+      // Respect data-target if already set in markup; otherwise read from inline style
+      var target = fill.getAttribute('data-target') || fill.style.width;
+      fill.setAttribute('data-target', target);
       fill.style.width = '0%';
     });
     setTimeout(function() {
@@ -1356,6 +1699,73 @@
       });
     }, 500);
   });
+  // ── Theme toggle ────────────────────────────────────────────────────────────
+  function toggleTheme() {
+    const html = document.documentElement;
+    const isDark = html.getAttribute('data-theme') === 'dark';
+    html.setAttribute('data-theme', isDark ? 'light' : 'dark');
+    document.getElementById('themeLabel').textContent = isDark ? 'Dark Mode' : 'Light Mode';
+    localStorage.setItem('trackerTheme', isDark ? 'light' : 'dark');
+  }
+
+  // Apply saved theme on load
+  (function() {
+    const saved = localStorage.getItem('trackerTheme') || 'light';
+    if (saved === 'dark') {
+      document.documentElement.setAttribute('data-theme', 'dark');
+      // Label updated after DOM ready
+      document.addEventListener('DOMContentLoaded', function() {
+        const label = document.getElementById('themeLabel');
+        if (label) label.textContent = 'Light Mode';
+      });
+    }
+  })();
+
+  // ── Ring chart animation ──
+  document.addEventListener('DOMContentLoaded', function() {
+    var ringIds   = ['ring-design','ring-dev','ring-seo','ring-content','ring-sanity','ring-created'];
+    var ringRadii = [15, 25, 35, 45, 55, 65];
+    var fills     = document.querySelectorAll('.progress-fill');
+
+    // Overall %
+    var total = 0;
+    fills.forEach(function(f) {
+      total += parseFloat(f.getAttribute('data-target') || f.style.width) || 0;
+    });
+    var pctEl = document.getElementById('pieOverallPct');
+    if (pctEl) pctEl.textContent = Math.round(total / (fills.length || 1)) + '%';
+
+    // Init rings to zero
+    ringIds.forEach(function(id, idx) {
+      var el = document.getElementById(id);
+      if (el) el.setAttribute('stroke-dasharray', '0 ' + (2 * Math.PI * ringRadii[idx]).toFixed(1));
+    });
+
+    // Staggered fill
+    setTimeout(function() {
+      fills.forEach(function(fill, i) {
+        if (i >= ringIds.length) return;
+        setTimeout(function() {
+          var pct  = parseFloat(fill.getAttribute('data-target')) || 0;
+          var circ = (2 * Math.PI * ringRadii[i]).toFixed(1);
+          var el   = document.getElementById(ringIds[i]);
+          if (el) el.setAttribute('stroke-dasharray', ((pct / 100) * circ).toFixed(1) + ' ' + circ);
+        }, i * 200);
+      });
+    }, 120);
+  });
+
+
+  // ── Anchor link navigation ──
+  document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('[data-anchor]').forEach(function(el) {
+      el.addEventListener('click', function() {
+        var target = document.getElementById(el.getAttribute('data-anchor'));
+        if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    });
+  });
+
 </script>
 
 </body></html>
