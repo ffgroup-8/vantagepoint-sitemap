@@ -629,7 +629,7 @@
   .rings-svg-container { position: relative; width: 160px; height: 160px; }
   .rings-svg-container svg { transform: rotate(-90deg); overflow: visible; }
   .ring-bg { fill: none; stroke: #eeede8; stroke-width: 8; stroke-linecap: round; }
-  .ring-fill { fill: none; stroke-width: 8; stroke-linecap: round; stroke-dasharray: 0 1000; transition: stroke-dasharray 0.9s cubic-bezier(0.4, 0, 0.2, 1); }
+  .ring-fill { fill: none; stroke-width: 8; stroke-linecap: round; transition: stroke-dashoffset 0.9s cubic-bezier(0.4, 0, 0.2, 1); }
   .rings-center-label { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); text-align: center; pointer-events: none; }
   .rings-overall-pct { display: block; font-size: 20px; font-weight: 700; color: #0d2e3f; line-height: 1; }
   .rings-overall-label { display: block; font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: .08em; color: #bbb; margin-top: 3px; }
@@ -2576,21 +2576,24 @@
     var pctEl = document.getElementById('pieOverallPct');
     if (pctEl) pctEl.textContent = Math.round(total / (fills.length || 1)) + '%';
 
-    // Init rings to zero
-    ringIds.forEach(function(id, idx) {
+    // Init rings: set dasharray = full circumference, offset = full (hidden)
+    ringIds.forEach(function(id, i) {
       var el = document.getElementById(id);
-      if (el) el.setAttribute('stroke-dasharray', '0 ' + (2 * Math.PI * ringRadii[idx]).toFixed(1));
+      if (!el) return;
+      var circ = +(2 * Math.PI * ringRadii[i]).toFixed(2);
+      el.style.strokeDasharray  = circ + ' ' + circ;
+      el.style.strokeDashoffset = circ;
     });
 
-    // Staggered fill
+    // Staggered animated fill via stroke-dashoffset
     setTimeout(function() {
       fills.forEach(function(fill, i) {
         if (i >= ringIds.length) return;
         setTimeout(function() {
           var pct  = parseFloat(fill.getAttribute('data-target')) || 0;
-          var circ = (2 * Math.PI * ringRadii[i]).toFixed(1);
+          var circ = +(2 * Math.PI * ringRadii[i]).toFixed(2);
           var el   = document.getElementById(ringIds[i]);
-          if (el) el.setAttribute('stroke-dasharray', ((pct / 100) * circ).toFixed(1) + ' ' + circ);
+          if (el) el.style.strokeDashoffset = (circ * (1 - pct / 100)).toFixed(2);
         }, i * 200);
       });
     }, 120);
