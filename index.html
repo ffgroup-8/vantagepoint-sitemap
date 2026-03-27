@@ -579,6 +579,48 @@
     line-height: 1.5;
     margin-bottom: 4px;
   }
+  /* ── Content Created box ── */
+  .content-section .content-created-box {
+    background: #f0f9ff;
+    border: 1.5px solid #0ea5e9;
+    border-radius: 6px;
+    padding: 10px 14px;
+    margin-top: 10px;
+  }
+
+  .content-section .content-created-box-title {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #0369a1;
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .content-section .content-created-box-title::before {
+    content: '\2713';
+    background: #0ea5e9;
+    color: #fff;
+    font-size: 9px;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .content-section .content-created-box p {
+    font-size: 11px;
+    color: #555;
+    line-height: 1.5;
+    margin-bottom: 4px;
+  }
+
 
   /* ── Rings progress chart ── */
   .progress-summary { display: flex; align-items: center; gap: 40px; }
@@ -813,6 +855,17 @@
   [data-theme="dark"] .content-section .seo-box-title::before { background: #10b981; }
 
   [data-theme="dark"] .content-section .seo-box p { color: #888884; }
+
+  /* Content Created box — dark mode */
+  [data-theme="dark"] .content-section .content-created-box {
+    background: #0b1e2d;
+    border-color: #1a4d66;
+  }
+
+  [data-theme="dark"] .content-section .content-created-box-title { color: #38bdf8; }
+  [data-theme="dark"] .content-section .content-created-box-title::before { background: #0ea5e9; }
+  [data-theme="dark"] .content-section .content-created-box p { color: #888884; }
+
 
   [data-theme="dark"] .ring-bg { stroke: #252525; }
   [data-theme="dark"] .rings-overall-pct { color: #e8e8e4; }
