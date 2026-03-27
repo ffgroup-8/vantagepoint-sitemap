@@ -872,6 +872,11 @@
   [data-theme="dark"] .rings-overall-pct { color: #e8e8e4; }
   [data-theme="dark"] .rings-overall-label { color: #484844; }
   [data-theme="dark"] .rings-legend-item { color: #555552; }
+
+  @media (max-width: 640px) {
+    .progress-summary { flex-direction: column; align-items: stretch; gap: 20px; }
+    .rings-chart-wrap { align-self: center; }
+  }
 </style>
 </head>
 <body>
@@ -976,8 +981,8 @@
 
   <div class="progress-row">
     <div class="progress-label"><span class="dot dot-sanity"></span> Sanity Dev</div>
-    <div class="progress-track"><div class="progress-fill sanity" style="width: 6%;" data-target="6%"></div></div>
-    <div class="progress-pct">6%</div>
+    <div class="progress-track"><div class="progress-fill sanity" style="width: 13%;" data-target="13%"></div></div>
+    <div class="progress-pct">13%</div>
   </div>
 
   <div class="progress-row">
@@ -1076,7 +1081,7 @@
               <span class="status-pill not-started dev"><span class="pill-icon">○</span> Dev</span>
               <span class="status-pill completed seo-tag"><span class="pill-icon">✓</span> SEO</span>
               <span class="status-pill not-started content"><span class="pill-icon">○</span> Content</span>
-              <span class="status-pill not-started sanity"><span class="pill-icon">○</span> Sanity</span>
+              <span class="status-pill completed sanity"><span class="pill-icon">✓</span> Sanity</span>
               <span class="status-pill not-started content-created"><span class="pill-icon">○</span> Created</span>
             </div>
           </div>
