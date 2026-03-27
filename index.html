@@ -630,9 +630,10 @@
   .rings-svg-container svg { transform: rotate(-90deg); overflow: visible; }
   .ring-bg { fill: none; stroke: #eeede8; stroke-width: 8; stroke-linecap: round; }
   .ring-fill { fill: none; stroke-width: 8; stroke-linecap: round; transition: stroke-dashoffset 0.9s cubic-bezier(0.4, 0, 0.2, 1); }
-  .rings-center-label { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); text-align: center; pointer-events: none; }
-  .rings-overall-pct { display: block; font-size: 20px; font-weight: 700; color: #0d2e3f; line-height: 1; }
-  .rings-overall-label { display: block; font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: .08em; color: #bbb; margin-top: 3px; }
+  .rings-main { display: flex; flex-direction: row; align-items: center; gap: 14px; }
+  .rings-side-label { display: flex; flex-direction: column; align-items: center; text-align: center; min-width: 44px; }
+  .rings-overall-pct { display: block; font-size: 24px; font-weight: 700; color: #0d2e3f; line-height: 1; }
+  .rings-overall-label { display: block; font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: .08em; color: #bbb; margin-top: 4px; }
   .rings-legend { display: grid; grid-template-columns: 1fr 1fr; gap: 4px 20px; }
   .rings-legend-item { display: flex; align-items: center; gap: 5px; font-size: 10px; color: #777; font-weight: 500; white-space: nowrap; }
   .rings-legend-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
@@ -986,24 +987,26 @@
   </div>
   </div>
   <div class="rings-chart-wrap">
-    <div class="rings-svg-container">
-      <svg viewBox="0 0 160 160" width="160" height="160" xmlns="http://www.w3.org/2000/svg">
-        <circle class="ring-bg" cx="80" cy="80" r="15"/>
-        <circle class="ring-bg" cx="80" cy="80" r="25"/>
-        <circle class="ring-bg" cx="80" cy="80" r="35"/>
-        <circle class="ring-bg" cx="80" cy="80" r="45"/>
-        <circle class="ring-bg" cx="80" cy="80" r="55"/>
-        <circle class="ring-bg" cx="80" cy="80" r="65"/>
-        <circle id="ring-design"  class="ring-fill" cx="80" cy="80" r="15" stroke="#6366f1"/>
-        <circle id="ring-dev"     class="ring-fill" cx="80" cy="80" r="25" stroke="#f59e0b"/>
-        <circle id="ring-seo"     class="ring-fill" cx="80" cy="80" r="35" stroke="#10b981"/>
-        <circle id="ring-content" class="ring-fill" cx="80" cy="80" r="45" stroke="#ef4444"/>
-        <circle id="ring-sanity"  class="ring-fill" cx="80" cy="80" r="55" stroke="#8b5cf6"/>
-        <circle id="ring-created" class="ring-fill" cx="80" cy="80" r="65" stroke="#0ea5e9"/>
-      </svg>
-      <div class="rings-center-label">
+    <div class="rings-main">
+      <div class="rings-side-label">
         <span class="rings-overall-pct" id="pieOverallPct">0%</span>
         <span class="rings-overall-label">Overall</span>
+      </div>
+      <div class="rings-svg-container">
+        <svg viewBox="0 0 160 160" width="160" height="160" xmlns="http://www.w3.org/2000/svg">
+          <circle class="ring-bg" cx="80" cy="80" r="15"/>
+          <circle class="ring-bg" cx="80" cy="80" r="25"/>
+          <circle class="ring-bg" cx="80" cy="80" r="35"/>
+          <circle class="ring-bg" cx="80" cy="80" r="45"/>
+          <circle class="ring-bg" cx="80" cy="80" r="55"/>
+          <circle class="ring-bg" cx="80" cy="80" r="65"/>
+          <circle id="ring-design"  class="ring-fill" cx="80" cy="80" r="15" stroke="#6366f1"/>
+          <circle id="ring-dev"     class="ring-fill" cx="80" cy="80" r="25" stroke="#f59e0b"/>
+          <circle id="ring-seo"     class="ring-fill" cx="80" cy="80" r="35" stroke="#10b981"/>
+          <circle id="ring-content" class="ring-fill" cx="80" cy="80" r="45" stroke="#ef4444"/>
+          <circle id="ring-sanity"  class="ring-fill" cx="80" cy="80" r="55" stroke="#8b5cf6"/>
+          <circle id="ring-created" class="ring-fill" cx="80" cy="80" r="65" stroke="#0ea5e9"/>
+        </svg>
       </div>
     </div>
     <div class="rings-legend">
