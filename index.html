@@ -858,6 +858,28 @@
   [data-theme="dark"] .content-section .seo-box p { color: #888884; }
 
   /* Content Created box — dark mode */
+  .content-section .content-created-box.done {
+    background: #fff1f2;
+    border-color: #fda4af;
+  }
+  .content-section .content-created-box.done .content-created-box-title {
+    color: #be123c;
+  }
+  .content-section .content-created-box.done .content-created-box-title::before {
+    background: #f43f5e;
+  }
+
+  [data-theme="dark"] .content-section .content-created-box.done {
+    background: #2d0a10;
+    border-color: #9f1239;
+  }
+  [data-theme="dark"] .content-section .content-created-box.done .content-created-box-title {
+    color: #fb7185;
+  }
+  [data-theme="dark"] .content-section .content-created-box.done .content-created-box-title::before {
+    background: #f43f5e;
+  }
+
   [data-theme="dark"] .content-section .content-created-box {
     background: #0b1e2d;
     border-color: #1a4d66;
@@ -2742,6 +2764,19 @@
         var target = document.getElementById(el.getAttribute('data-anchor'));
         if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
       });
+    });
+  });
+
+  // Mark content-created-box as done (light red) when node has completed content-created pill
+  document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('[data-anchor]').forEach(function(node) {
+      if (node.querySelector('.status-pill.completed.content-created')) {
+        var section = document.getElementById(node.getAttribute('data-anchor'));
+        if (section) {
+          var box = section.querySelector('.content-created-box');
+          if (box) box.classList.add('done');
+        }
+      }
     });
   });
 
