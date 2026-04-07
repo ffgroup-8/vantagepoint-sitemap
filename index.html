@@ -2767,10 +2767,10 @@
     });
   });
 
-  // Mark content-created-box as done (light red) when node has completed content-created pill
+  // Mark content-created-box as done (light red) when node has completed content pill
   document.addEventListener('DOMContentLoaded', function() {
     document.querySelectorAll('[data-anchor]').forEach(function(node) {
-      if (node.querySelector('.status-pill.completed.content-created')) {
+      if (node.querySelector('.status-pill.completed.content')) {
         var section = document.getElementById(node.getAttribute('data-anchor'));
         if (section) {
           var box = section.querySelector('.content-created-box');
